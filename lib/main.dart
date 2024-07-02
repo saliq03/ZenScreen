@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zenscreen/Pages/bottom_nav.dart';
 import 'package:zenscreen/Pages/home.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Home(),
+      home: BottomNav(),
     );
   }
 }
