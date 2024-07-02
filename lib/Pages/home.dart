@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -8,6 +10,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  List wallpaperImage=["assets/images/sample.png","assets/images/profile.png"];
+ int activeindex=0;
   @override
   Widget build(BuildContext context) {
     return  Container(
@@ -24,15 +28,50 @@ class _HomeState extends State<Home> {
               ],
             ),
             SizedBox(height: 10,),
-            ClipRRect(borderRadius: BorderRadius.circular(40),
-              child: Image.asset("assets/images/sample.png",
-                width: MediaQuery.of(context).size.width,
+            CarouselSlider.builder(
+              itemCount: wallpaperImage.length,
+              itemBuilder: (BuildContext context, int index, int realIndex) {
+                return buildImage(wallpaperImage[index]);
+              },
+              options: CarouselOptions(
                 height: MediaQuery.of(context).size.height/1.5,
-              fit: BoxFit.cover,),
-            )
+                enlargeCenterPage: true,
+                viewportFraction: 1,
+                enlargeStrategy: CenterPageEnlargeStrategy.height,
+                autoPlay: true,
+                onPageChanged: (index,reason){
+                  setState(() {
+                    activeindex=index;
+                  });
+                }
+              ),),
+            SizedBox(height: 10,),
+            Center(child: buildIndicator(),)
+
           ],
         ),
 
     );
+  }
+  Widget buildImage(String image){
+    return ClipRRect(borderRadius: BorderRadius.circular(40),
+      child: Image.asset(image,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height/1.5,
+        fit: BoxFit.cover,),
+    );
+
+
+  }
+  Widget buildIndicator(){
+   return AnimatedSmoothIndicator(
+       activeIndex: activeindex,
+       count: wallpaperImage.length,
+       effect: JumpingDotEffect(
+         activeDotColor: Colors.blue,
+         dotHeight:15,
+         dotWidth: 15
+       ),
+   );
   }
 }
