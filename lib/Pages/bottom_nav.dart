@@ -31,14 +31,19 @@ class _BottomNavState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[currentIndex],
+
+      body: Padding(
+        padding: EdgeInsets.only(top:60,left: 20,right: 20),
+        child: pages[currentIndex],),
       bottomNavigationBar: CurvedNavigationBar(
         items: [
           Icon(Icons.home_outlined,color: Colors.white,),
           Icon(Icons.search_outlined,color: Colors.white,),
           Icon(Icons.category_outlined,color: Colors.white,),
         ],
-        color: Colors.black,
+        buttonBackgroundColor: Colors.black,
+        backgroundColor: Colors.white,
+        color: Colors.black54,
         height: 65,
         animationDuration: Duration(milliseconds: 500),
         onTap: (index){

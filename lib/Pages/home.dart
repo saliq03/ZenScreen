@@ -11,7 +11,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return  Container(
-        margin: EdgeInsets.only(top:60,left: 20,right: 20),
         child: Column(
           children: [
             Row(
@@ -20,14 +19,14 @@ class _HomeState extends State<Home> {
                   borderRadius: BorderRadius.circular(35),
                     child: Image.asset("assets/images/profile.png",width: 70,height: 70,fit: BoxFit.cover,)),
                 SizedBox(width: 40,),
-                Center(child: Text("ZenScreen",style: TextStyle(fontFamily: "Poppins",fontWeight: FontWeight.bold,fontSize: 30),))
+                Center(child: Text("ZenScreen",style: TextStyle(fontFamily: "Poppins",fontWeight: FontWeight.bold,fontSize: 30,color: Colors.black),))
               ],
             ),
             SizedBox(height: 10,),
-            ClipRRect(borderRadius: BorderRadius.circular(30),
+            ClipRRect(borderRadius: BorderRadius.circular(40),
               child: Image.asset("assets/images/sample.png",
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height*0.7,
+                height: MediaQuery.of(context).size.height/1.5,
               fit: BoxFit.cover,),
             )
           ],
