@@ -19,7 +19,8 @@ class _HomeState extends State<Home> {
                   borderRadius: BorderRadius.circular(35),
                     child: Image.asset("assets/images/profile.png",width: 70,height: 70,fit: BoxFit.cover,)),
                 SizedBox(width: 40,),
-                Center(child: Text("ZenScreen",style: TextStyle(fontFamily: "Poppins",fontWeight: FontWeight.bold,fontSize: 30,color: Colors.black),))
+                Center(
+                    child: Text("ZenScreen",style: TextStyle(fontFamily: "Poppins",fontWeight: FontWeight.bold,fontSize: 30,color: Colors.black),))
               ],
             ),
             SizedBox(height: 10,),
