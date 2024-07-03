@@ -1,6 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:zenscreen/Widgets/widgets.dart';
 import '../Models/PhotosModel.dart';
 import 'package:http/http.dart'as http;
 
@@ -15,17 +15,34 @@ class _SearchState extends State<Search> {
   TextEditingController searchController=TextEditingController();
    List<Photosmodel> photos=[];
 
+   @override
+  void initState() {
+    super.initState();
+    getAllPhotos();
+  }
    getAllPhotos() async {
-   await http.get(Uri.parse("https://api.pexels.com/v1/search?query=nature&per_page=30"),
-       headers: {"Authorization":"ARK1n0oeShbY7IUDk0q7Zw6dru0JL0voylzJwOTKHboJmMeOOiZnr6pq"}).then((value){
-     Map<String,dynamic> jsonData=jsonDecode(value.body);
-     jsonData["photos"].forEach((element){
-       Photosmodel photosmodel=new Photosmodel();
-        photosmodel=Photosmodel.fromMap(element);
-        photos.add(photosmodel);
-        setState(() {});
+     String searchtext='all';
+     if(searchController.text!=''){
+      searchtext=searchController.text;}
+   try {
+     await http.get(
+         Uri.parse("https://api.pexels.com/v1/search?query=${searchtext}&per_page=30"),
+         headers: {
+           "Authorization": "ARK1n0oeShbY7IUDk0q7Zw6dru0JL0voylzJwOTKHboJmMeOOiZnr6pq"
+         }).then((value) {
+       Map<String, dynamic> jsonData = jsonDecode(value.body);
+       jsonData["photos"].forEach((element) {
+         Photosmodel photosmodel = new Photosmodel();
+         photosmodel = Photosmodel.fromMap(element);
+         photos.add(photosmodel);
+         setState(() {});
+       });
      });
-   });
+   }
+   catch(ex){
+     print("Error found");
+     print(ex.toString());
+   }
 
    }
   @override
@@ -46,13 +63,16 @@ class _SearchState extends State<Search> {
               decoration: InputDecoration(
                 hintText: "search",
                 suffixIcon: IconButton(onPressed: () {
+                  photos=[];
                   getAllPhotos();
                 },icon:Icon(Icons.search)),
                 border: InputBorder.none
 
               ),
             ),
-          )
+          ),
+          SizedBox(height: 10,),
+          Expanded(child: Container(child: onSearchImage(photos, context)))
         ],
       ),
     );
