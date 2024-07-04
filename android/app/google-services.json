@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "435843087214",
+    "project_id": "zenscreen-e56f6",
+    "storage_bucket": "zenscreen-e56f6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:435843087214:android:cc979fa854b5092dcadf7f",
+        "android_client_info": {
+          "package_name": "com.example.zenscreen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIQyP6KseF5uZnfZEMgdZdodqG4zVcVhg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
