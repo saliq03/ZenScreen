@@ -1,21 +1,24 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:zenscreen/Admin/AddWallpaper.dart';
 import 'package:zenscreen/Widgets/widgets.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Login> createState() => LoginState();
 }
 
-class _LoginState extends State<Login> {
+class LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey=GlobalKey<FormState>();
   TextEditingController usernameController=TextEditingController();
   TextEditingController passwordController=TextEditingController();
+  bool showflag =true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white70,
+      backgroundColor: Color(0xFFededeb),
       body:Container(
         padding: EdgeInsets.only(top: 50),
         child: Column(
@@ -31,7 +34,7 @@ class _LoginState extends State<Login> {
                       borderRadius: BorderRadius.circular(22),
                       elevation: 10,
                       child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+                          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height/2.2,
                         decoration: BoxDecoration(
@@ -47,6 +50,7 @@ class _LoginState extends State<Login> {
                              TextFormField(
                                   controller: usernameController,
                                     style: TextStyle(fontSize: 23),
+
                                   decoration: textfieldDecoration("Enter username"),
                                   validator: (value){
                                       if(value==null||value.isEmpty){
@@ -58,6 +62,7 @@ class _LoginState extends State<Login> {
                                TextFormField(
                                   controller: passwordController,
                                   style: TextStyle(fontSize: 23),
+                                    obscureText: showflag,
                                     decoration: textfieldDecoration("Enter password"),
                                   validator: (value){
                                     if(value==null||value.isEmpty){
@@ -67,16 +72,17 @@ class _LoginState extends State<Login> {
                             GestureDetector(
                               onTap: (){
                                 _formKey.currentState!.validate();
+                                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Addwallpaper()));
                               },
                               child: Container(
                                 padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                                margin: EdgeInsets.only(top: 40,bottom: 10),
+                                margin: EdgeInsets.only(top: 40),
                                 width:MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
                                   color: Colors.black
                                 ),
-                                child: Center(child: Text("Login",
+                                child: Center(child: Text("LogIn",
                                 style: TextStyle(color: Colors.white,fontSize: 30,fontWeight: FontWeight.bold),)),
                               ),
                             )
@@ -91,5 +97,39 @@ class _LoginState extends State<Login> {
 
 
       ),);
+  }
+
+  textfieldDecoration(String hinttext){
+
+    return InputDecoration(
+      hintText: hinttext,
+      suffixIcon: hinttext=="Enter password"?IconButton(onPressed: (){
+        showflag=!showflag;
+        setState(() {});
+      },
+          icon: showflag?Icon(CupertinoIcons.eye):Icon(CupertinoIcons.eye_slash)):null,
+      
+      contentPadding:  EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+      enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(22),
+          borderSide: BorderSide(
+              width: 2,color: Colors.black38
+          )),
+      focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(22),
+          borderSide: BorderSide(
+              width: 2,color: Colors.black38
+          )),
+      errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(22),
+          borderSide: BorderSide(
+              width: 2,color: Colors.redAccent
+          )),
+      focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(22),
+          borderSide: BorderSide(
+              width: 2,color: Colors.black38
+          )),
+    );
   }
 }

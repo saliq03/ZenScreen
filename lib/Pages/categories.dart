@@ -17,11 +17,11 @@ class _CategoriesState extends State<Categories> {
             Center(
                 child: Text("Categories",style: TextStyle(fontFamily: "Poppins",fontWeight: FontWeight.bold,fontSize: 30,color: Colors.black),)),
             SizedBox(height: 10,),
-            MyCategory("assets/images/sample.png", "Nature"),
-            MyCategory("assets/images/sample.png", "Nature"),
-            MyCategory("assets/images/profile.png", "Nature"),
-            MyCategory("assets/images/sample.png", "Nature"),
-            MyCategory("assets/images/sample.png", "Nature"),
+            MyCategory("assets/images/city.jpeg", "City"),
+            MyCategory("assets/images/nature.jpeg", "Nature"),
+            MyCategory("assets/images/wildlife.jpeg", "WildLife"),
+            MyCategory("assets/images/food.jpeg", "Food"),
+
         
           ],
         ),

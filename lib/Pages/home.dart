@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:zenscreen/Admin/login.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -10,8 +11,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List wallpaperImage=["assets/images/sample.png","assets/images/profile.png"];
+  List wallpaperImage=["assets/images/nature.jpeg","assets/images/food.jpeg","assets/images/wildlife.jpeg","assets/images/city.jpeg","assets/images/sample.png","assets/images/profile.png"];
  int activeindex=0;
+
   @override
   Widget build(BuildContext context) {
     return  Container(
@@ -19,9 +21,13 @@ class _HomeState extends State<Home> {
           children: [
             Row(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(35),
-                    child: Image.asset("assets/images/profile.png",width: 70,height: 70,fit: BoxFit.cover,)),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()));},
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(35),
+                      child: Image.asset("assets/images/profile.png",width: 70,height: 70,fit: BoxFit.cover,)),
+                ),
                 SizedBox(width: 40,),
                 Center(
                     child: Text("ZenScreen",style: TextStyle(fontFamily: "Poppins",fontWeight: FontWeight.bold,fontSize: 30,color: Colors.black),))
