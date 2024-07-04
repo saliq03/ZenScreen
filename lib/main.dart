@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:zenscreen/Pages/bottom_nav.dart';
 import 'package:zenscreen/Pages/home.dart';
 
+import 'Admin/login.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -19,7 +21,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: BottomNav(),
+      // home: BottomNav(),
+      home: Login(),
     );
   }
 }
