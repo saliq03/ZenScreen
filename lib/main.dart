@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:zenscreen/Pages/bottom_nav.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
       title: 'ZenScreen',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.highContrastLight(),
         useMaterial3: true,
       ),
       home: BottomNav(),
