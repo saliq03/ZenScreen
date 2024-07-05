@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zenscreen/Admin/AddWallpaper.dart';
 import 'package:zenscreen/Widgets/widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -15,6 +16,7 @@ class LoginState extends State<Login> {
   TextEditingController usernameController=TextEditingController();
   TextEditingController passwordController=TextEditingController();
   bool showflag =true;
+  bool userfound=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,8 +73,10 @@ class LoginState extends State<Login> {
                                   },),
                             GestureDetector(
                               onTap: (){
+                                if(usernameController.text!=""&&passwordController!=""){
+                                  LoginUser();
+                                }
                                 _formKey.currentState!.validate();
-                                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Addwallpaper()));
                               },
                               child: Container(
                                 padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
@@ -131,5 +135,29 @@ class LoginState extends State<Login> {
               width: 2,color: Colors.black38
           )),
     );
+  }
+
+  LoginUser(){
+    FirebaseFirestore.instance.collection("Admin").get().then((snapshot){
+      snapshot.docs.forEach((user){
+        if(user.data()["Id"]==usernameController.text.trim()){
+          userfound=true;
+          if(user.data()["Password"]==passwordController.text.trim()){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>Addwallpaper()));
+          }
+          else{
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                backgroundColor: Colors.orangeAccent,
+                content: Text("Incorrect Password",style: TextStyle(fontSize: 20),)));
+          }
+        }
+      });
+      if(!userfound) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.orangeAccent,
+            content: Text("User not found",style: TextStyle(fontSize: 20),)));
+      }
+
+    });
   }
 }
