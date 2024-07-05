@@ -143,6 +143,7 @@ class LoginState extends State<Login> {
         if(user.data()["Id"]==usernameController.text.trim()){
           userfound=true;
           if(user.data()["Password"]==passwordController.text.trim()){
+            FocusScope.of(context).unfocus();
             Navigator.push(context, MaterialPageRoute(builder: (context)=>Addwallpaper()));
           }
           else{

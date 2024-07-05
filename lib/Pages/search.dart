@@ -64,6 +64,7 @@ class _SearchState extends State<Search> {
                 hintText: "search",
                 suffixIcon: IconButton(onPressed: () {
                   photos=[];
+                  FocusScope.of(context).unfocus();
                   getAllPhotos();
                 },icon:Icon(Icons.search)),
                 border: InputBorder.none

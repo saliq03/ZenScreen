@@ -1,8 +1,11 @@
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:random_string/random_string.dart';
+import 'package:zenscreen/Admin/login.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import '../database/Databse_methods.dart';
 
 class Addwallpaper extends StatefulWidget {
   const Addwallpaper({super.key});
@@ -28,6 +31,28 @@ class _AddwallpaperState extends State<Addwallpaper> {
       print(ex.toString());
     }
   }
+
+  UploadItem() async {
+    if(pickedImage!=null &&dropdownValue!=null){
+  String id=randomAlphaNumeric(10);
+    FirebaseStorage storage =FirebaseStorage.instanceFor(bucket: "zenscreen-e56f6.appspot.com");
+    TaskSnapshot snapshot=await storage.ref("Wallpapers").child(id).putFile(pickedImage!);
+    String imageUrl= await snapshot.ref.getDownloadURL();
+    await DatabseMethods().addWallpaper(imageUrl, dropdownValue!, id).then((value){
+      Fluttertoast.showToast(
+          msg: "Added Sucessfully",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+      pickedImage=null;
+      setState(() {});
+    });
+    }
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -37,6 +62,9 @@ class _AddwallpaperState extends State<Addwallpaper> {
         title: Text("Add Wallpaper",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontFamily: "Poppins"),),
         centerTitle: true,
         backgroundColor: Color(0xFFededeb),
+        actions: [IconButton(onPressed: (){
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Login()));
+        }, icon: Icon(Icons.logout))],
       ),
       body: Container(
         padding: EdgeInsets.only(top: 50,left: 20,right:20 ),
@@ -107,7 +135,7 @@ class _AddwallpaperState extends State<Addwallpaper> {
 
             GestureDetector(
               onTap: (){
-
+                UploadItem();
               },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
@@ -117,7 +145,7 @@ class _AddwallpaperState extends State<Addwallpaper> {
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.black
                 ),
-                child: Center(child: Text("LogIn",
+                child: Center(child: Text("Add",
                   style: TextStyle(color: Colors.white,fontSize: 30,fontWeight: FontWeight.bold),)),
               ),
             ),
