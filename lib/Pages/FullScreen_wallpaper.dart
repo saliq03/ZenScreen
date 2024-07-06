@@ -22,8 +22,37 @@ class _FullscreenWallpaperState extends State<FullscreenWallpaper> {
               height: MediaQuery.of(context).size.height,
               child:  widget.imagepath.contains("images.pexels.com")?
               CachedNetworkImage(imageUrl: widget.imagepath,fit: BoxFit.cover,):
+              widget.imagepath.contains("assets/images/")?Image.asset(widget.imagepath,fit: BoxFit.cover,):
                   Image.network(widget.imagepath,fit: BoxFit.cover,),
-            ),)
+            ),),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(40),
+                    border: Border.all(color: Colors.white54,width: 1),
+                    color: Colors.black.withOpacity(0.4)
+                  ),
+                  child:(Text("Download Image",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontFamily: "Poppins",fontSize: 23),))
+                ),
+                SizedBox(height: 20,),
+
+                GestureDetector(
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                    child: Text("Cancel",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontFamily: "Poppins",fontSize: 30))),
+                SizedBox(height: 50,)
+
+              ],
+            ),
+          )
         ],
       ),
     );

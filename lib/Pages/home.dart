@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zenscreen/Admin/login.dart';
+import 'package:zenscreen/Pages/FullScreen_wallpaper.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -11,9 +14,17 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List wallpaperImage=["assets/images/nature.jpeg","assets/images/food.jpeg","assets/images/wildlife.jpeg","assets/images/city.jpeg","assets/images/sample.png","assets/images/profile.png"];
+  List wallpaperImage=["assets/images/wallpaper1.jpg", "assets/images/wallpaper2.jpg",
+    "assets/images/wallpaper3.jpg","assets/images/wallpaper4.jpg",
+    "assets/images/wallpaper5.jpg", "assets/images/wallpaper6.jpg",
+    "assets/images/wallpaper7.jpg","assets/images/wallpaper8.jpg",];
  int activeindex=0;
 
+ @override
+  void initState() {
+    wallpaperImage.shuffle(Random());
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return  Container(
@@ -37,7 +48,11 @@ class _HomeState extends State<Home> {
             CarouselSlider.builder(
               itemCount: wallpaperImage.length,
               itemBuilder: (BuildContext context, int index, int realIndex) {
-                return buildImage(wallpaperImage[index]);
+                return GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>FullscreenWallpaper(imagepath: wallpaperImage[index])));
+                  },
+                    child: buildImage(wallpaperImage[index]));
               },
               options: CarouselOptions(
                 height: MediaQuery.of(context).size.height/1.5,
@@ -61,10 +76,12 @@ class _HomeState extends State<Home> {
   }
   Widget buildImage(String image){
     return ClipRRect(borderRadius: BorderRadius.circular(40),
-      child: Image.asset(image,
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height/1.5,
-        fit: BoxFit.cover,),
+      child: Hero(tag: image,
+        child: Image.asset(image,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height/1.5,
+          fit: BoxFit.cover,),
+      ),
     );
 
 

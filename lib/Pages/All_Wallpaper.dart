@@ -39,11 +39,13 @@ class _AllWallpaperState extends State<AllWallpaper> {
                         DocumentSnapshot ds = snapshot.data!.docs[index];
                         return GestureDetector(
                           onTap: (){
-                            print(ds["Image"]);
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>FullscreenWallpaper(imagepath: ds["Image"])));
                           },
-                          child: Container(
-                              child: Image.network(ds["Image"], fit: BoxFit.cover,)
+                          child: Hero(
+                            tag: ds["Image"],
+                            child: Container(
+                                child: Image.network(ds["Image"], fit: BoxFit.cover,)
+                            ),
                           ),
                         );
                       });
@@ -53,7 +55,7 @@ class _AllWallpaperState extends State<AllWallpaper> {
                   return Center(child: Text("ERROR"),);
                 }
                 else{
-                  return Center(child: Text("No data found"),);
+                  return Center(child: Text("No data found",style: TextStyle(color: Colors.black),),);
                 }
               }
               else{
