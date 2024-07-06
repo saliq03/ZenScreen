@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:zenscreen/Models/PhotosModel.dart';
+import 'package:zenscreen/Pages/FullScreen_wallpaper.dart';
 
 Widget onSearchImage(List<Photosmodel> photos,BuildContext context){
   return GridView.builder(
@@ -14,11 +15,18 @@ Widget onSearchImage(List<Photosmodel> photos,BuildContext context){
       mainAxisSpacing: 6,
       childAspectRatio: 0.6),
       itemBuilder: (context,index){
-        return GridTile(
-            child:Hero(tag:photos[index].src!.portrait!,
-            child: Container(
-              child: CachedNetworkImage(imageUrl: photos[index].src!.portrait!,fit: BoxFit.cover,),
-            ),)
+        return GestureDetector(
+          onTap: () {
+            print(photos[index].src!.portrait!);
+            Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                FullscreenWallpaper(imagepath: photos[index].src!.portrait!)));
+          },
+          child: GridTile(
+              child:Hero(tag:photos[index].src!.portrait!,
+              child: Container(
+                child: CachedNetworkImage(imageUrl: photos[index].src!.portrait!,fit: BoxFit.cover,),
+              ),)
+          ),
         );
       });
 }

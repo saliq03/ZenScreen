@@ -20,7 +20,9 @@ class _FullscreenWallpaperState extends State<FullscreenWallpaper> {
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              child: CachedNetworkImage(imageUrl: widget.imagepath,fit: BoxFit.cover,),
+              child:  widget.imagepath.contains("images.pexels.com")?
+              CachedNetworkImage(imageUrl: widget.imagepath,fit: BoxFit.cover,):
+                  Image.network(widget.imagepath,fit: BoxFit.cover,),
             ),)
         ],
       ),

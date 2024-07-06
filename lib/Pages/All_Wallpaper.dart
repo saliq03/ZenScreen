@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:zenscreen/Pages/FullScreen_wallpaper.dart';
 
 class AllWallpaper extends StatefulWidget {
   final String Category;
@@ -36,8 +37,14 @@ class _AllWallpaperState extends State<AllWallpaper> {
                           childAspectRatio: 0.6),
                       itemBuilder: (context, index) {
                         DocumentSnapshot ds = snapshot.data!.docs[index];
-                        return Container(
-                            child: Image.network(ds["Image"], fit: BoxFit.cover,)
+                        return GestureDetector(
+                          onTap: (){
+                            print(ds["Image"]);
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>FullscreenWallpaper(imagepath: ds["Image"])));
+                          },
+                          child: Container(
+                              child: Image.network(ds["Image"], fit: BoxFit.cover,)
+                          ),
                         );
                       });
                 }
