@@ -1,5 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 class FullscreenWallpaper extends StatefulWidget {
  final  String imagepath;
@@ -27,7 +32,8 @@ class _FullscreenWallpaperState extends State<FullscreenWallpaper> {
             ),),
           GestureDetector(
             onTap: (){
-              Navigator.pop(context);
+              widget.imagepath.contains("assets/images/")?
+              SaveLocalImage(): SaveImage();
             },
             child: Container(
               width: MediaQuery.of(context).size.width,
@@ -54,12 +60,23 @@ class _FullscreenWallpaperState extends State<FullscreenWallpaper> {
                       child: Text("Cancel",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontFamily: "Poppins",fontSize: 30))),
                   SizedBox(height: 50,)
 
-                ],
-              ),
+                ],),
             ),
-          )
-        ],
-      ),
-    );
+          )],),);
+  }
+  SaveImage() async {
+    var response = await Dio().get(widget.imagepath,
+        options: Options(responseType: ResponseType.bytes));
+    final result = await ImageGallerySaver.saveImage(Uint8List.fromList(response.data),
+        );
+    print(result);
+    Navigator.pop(context);
+  }
+  SaveLocalImage() async {
+    final ByteData byteData = await rootBundle.load(widget.imagepath);
+    final Uint8List bytes = byteData.buffer.asUint8List();
+    final result = await ImageGallerySaver.saveImage(bytes);
+    print(result);
+    Navigator.pop(context);
   }
 }
