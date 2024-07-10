@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:zenscreen/Admin/AddWallpaper.dart';
 import 'package:zenscreen/Admin/login.dart';
 import 'package:zenscreen/Pages/FullScreen_wallpaper.dart';
 
@@ -10,15 +12,17 @@ class Home extends StatefulWidget {
   const Home({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<Home> createState() => HomeState();
 }
 
-class _HomeState extends State<Home> {
+class HomeState extends State<Home> {
   List wallpaperImage=["assets/images/wallpaper1.jpg", "assets/images/wallpaper2.jpg",
     "assets/images/wallpaper3.jpg","assets/images/wallpaper4.jpg",
     "assets/images/wallpaper5.jpg", "assets/images/wallpaper6.jpg",
     "assets/images/wallpaper7.jpg","assets/images/wallpaper8.jpg",];
  int activeindex=0;
+
+  static const String loginkey="loginkey";
 
  @override
   void initState() {
@@ -34,7 +38,8 @@ class _HomeState extends State<Home> {
               children: [
                 GestureDetector(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()));},
+                    Navigate();
+                     },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(35),
                       child: Image.asset("assets/images/profile.png",width: 70,height: 70,fit: BoxFit.cover,)),
@@ -96,5 +101,25 @@ class _HomeState extends State<Home> {
          dotWidth: 15
        ),
    );
+  }
+
+  Future<void> Navigate() async {
+   try {
+     var pref = await SharedPreferences.getInstance();
+     bool? isLoggedIn = pref.getBool(loginkey);
+
+     if (isLoggedIn == true) {
+       Navigator.pushReplacement(
+           context, MaterialPageRoute(builder: (context) => Addwallpaper()));
+     }
+     else {
+       Navigator.pushReplacement(
+           context, MaterialPageRoute(builder: (context) => Login()));
+     }
+   }
+   catch (ex){
+     print(ex.toString());
+   }
+
   }
 }

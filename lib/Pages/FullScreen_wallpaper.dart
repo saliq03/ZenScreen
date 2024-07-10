@@ -25,10 +25,10 @@ class _FullscreenWallpaperState extends State<FullscreenWallpaper> {
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              child:  widget.imagepath.contains("images.pexels.com")?
-              CachedNetworkImage(imageUrl: widget.imagepath,fit: BoxFit.cover,):
-              widget.imagepath.contains("assets/images/")?Image.asset(widget.imagepath,fit: BoxFit.cover,):
-                  Image.network(widget.imagepath,fit: BoxFit.cover,),
+              child: widget.imagepath.contains("assets/images/")?Image.asset(widget.imagepath,fit: BoxFit.cover,):
+              CachedNetworkImage(imageUrl: widget.imagepath,
+                placeholder: (context, url) => Center(child: Container(height:50, child: CircularProgressIndicator())),
+                fit: BoxFit.cover,)
             ),),
           GestureDetector(
             onTap: (){

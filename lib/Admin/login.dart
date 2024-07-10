@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zenscreen/Admin/AddWallpaper.dart';
+import 'package:zenscreen/Pages/home.dart';
 import 'package:zenscreen/Widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -17,6 +19,8 @@ class LoginState extends State<Login> {
   TextEditingController passwordController=TextEditingController();
   bool showflag =true;
   bool userfound=false;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,7 +116,7 @@ class LoginState extends State<Login> {
         setState(() {});
       },
           icon: showflag?Icon(CupertinoIcons.eye):Icon(CupertinoIcons.eye_slash)):null,
-      
+
       contentPadding:  EdgeInsets.symmetric(horizontal: 20,vertical: 20),
       enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(22),
@@ -137,14 +141,17 @@ class LoginState extends State<Login> {
     );
   }
 
-  LoginUser(){
+  LoginUser() async {
+
+    SharedPreferences pref=await SharedPreferences.getInstance();
     FirebaseFirestore.instance.collection("Admin").get().then((snapshot){
       snapshot.docs.forEach((user){
         if(user.data()["Id"]==usernameController.text.trim()){
           userfound=true;
           if(user.data()["Password"]==passwordController.text.trim()){
             FocusScope.of(context).unfocus();
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>Addwallpaper()));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Addwallpaper()));
+            pref.setBool(HomeState.loginkey, true);
           }
           else{
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(

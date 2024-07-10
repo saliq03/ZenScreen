@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zenscreen/Pages/FullScreen_wallpaper.dart';
@@ -44,7 +45,9 @@ class _AllWallpaperState extends State<AllWallpaper> {
                           child: Hero(
                             tag: ds["Image"],
                             child: Container(
-                                child: Image.network(ds["Image"], fit: BoxFit.cover,)
+                                child: CachedNetworkImage(imageUrl: ds["Image"],
+                                  placeholder: (context, url) => Center(child: Container(height:50, child: CircularProgressIndicator())),
+                                  fit: BoxFit.cover,)
                             ),
                           ),
                         );

@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zenscreen/Admin/login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../database/Databse_methods.dart';
@@ -22,11 +24,10 @@ class _AddwallpaperState extends State<Addwallpaper> {
   PickImage() async {
     try {
       final img = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if(img==null)return;
-      final tempimg=File(img.path);
-      setState(() {
-        pickedImage=tempimg;
-      });}
+      if (img == null) return;
+      final tempimg = File(img.path);
+      CompressImage(tempimg);
+    }
     catch(ex){
       print(ex.toString());
     }
@@ -53,6 +54,18 @@ class _AddwallpaperState extends State<Addwallpaper> {
     });
     }
   }
+
+   CompressImage(File file) async {
+    var compressedImage=await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      '${file.absolute.parent.path}/temp.jpg',
+      minHeight: 500,
+      minWidth: 500,
+      quality: 80);
+    pickedImage= File(compressedImage!.path);
+    setState(() {});
+   }
+
   @override
   Widget build(BuildContext context) {
 
@@ -62,8 +75,10 @@ class _AddwallpaperState extends State<Addwallpaper> {
         title: Text("Add Wallpaper",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontFamily: "Poppins"),),
         centerTitle: true,
         backgroundColor: Color(0xFFededeb),
-        actions: [IconButton(onPressed: (){
+        actions: [IconButton(onPressed: () async {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Login()));
+          SharedPreferences pref=await SharedPreferences.getInstance();
+          pref.setBool("login", false);
         }, icon: Icon(Icons.logout))],
       ),
       body: Container(

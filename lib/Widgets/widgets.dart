@@ -24,7 +24,9 @@ Widget onSearchImage(List<Photosmodel> photos,BuildContext context){
           child: GridTile(
               child:Hero(tag:photos[index].src!.portrait!,
               child: Container(
-                child: CachedNetworkImage(imageUrl: photos[index].src!.portrait!,fit: BoxFit.cover,),
+                child: CachedNetworkImage(imageUrl: photos[index].src!.portrait!,
+                  placeholder: (context, url) => Center(child: Container(height:50, child: CircularProgressIndicator())),
+                  fit: BoxFit.cover,),
               ),)
           ),
         );
