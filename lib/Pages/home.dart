@@ -109,11 +109,11 @@ class HomeState extends State<Home> {
      bool? isLoggedIn = pref.getBool(loginkey);
 
      if (isLoggedIn == true) {
-       Navigator.pushReplacement(
+       Navigator.push(
            context, MaterialPageRoute(builder: (context) => Addwallpaper()));
      }
      else {
-       Navigator.pushReplacement(
+       Navigator.push(
            context, MaterialPageRoute(builder: (context) => Login()));
      }
    }

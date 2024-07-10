@@ -7,6 +7,7 @@ import 'package:random_string/random_string.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zenscreen/Admin/login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:zenscreen/Pages/home.dart';
 import '../database/Databse_methods.dart';
 
 class Addwallpaper extends StatefulWidget {
@@ -78,7 +79,7 @@ class _AddwallpaperState extends State<Addwallpaper> {
         actions: [IconButton(onPressed: () async {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Login()));
           SharedPreferences pref=await SharedPreferences.getInstance();
-          pref.setBool("login", false);
+          pref.setBool(HomeState.loginkey, false);
         }, icon: Icon(Icons.logout))],
       ),
       body: Container(
